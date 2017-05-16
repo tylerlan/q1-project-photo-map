@@ -18,3 +18,4 @@ This is a front-end application demonstrating skills gained in the first quarter
 * Other Tools:
     * [Materialize](http://materializecss.com/) front-end framework
     * [Brunch](http://brunch.io) build tool
+    * [jQuery](https://code.jquery.com/) JavaScript library
