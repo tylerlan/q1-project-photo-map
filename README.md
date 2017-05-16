@@ -1,16 +1,20 @@
-# Brunch app
+# Galvanize WDI Q1 Project
 
-This is a HTML5 application, built with [Brunch](http://brunch.io).
+This is a front-end application demonstrating skills gained in the first quarter of Wed Development Immersive program.
 
-## Getting started
-* Install (if you don't have them):
-    * [Node.js](http://nodejs.org): `brew install node` on OS X
-    * [Brunch](http://brunch.io): `npm install -g brunch`
-    * Brunch plugins and app dependencies: `npm install`
-* Run:
-    * `npm start` — watches the project with continuous rebuild. This will also launch HTTP server with [pushState](https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Manipulating_the_browser_history).
-    * `npm run build` — builds minified project for production
-* Learn:
-    * `public/` dir is fully auto-generated and served by HTTP server.  Write your code in `app/` dir.
-    * Place static files you want to be copied from `app/assets/` to `public/`.
-    * [Brunch site](http://brunch.io), [Getting started guide](https://github.com/brunch/brunch-guide#readme)
+## Features
+* Allows user to view the most recent photos taken at a particular location, anywhere in the world
+* Highlights the use of pervasiveness of geocoding, as well as giving users a new perspective on the goings on in the world around them
+
+## Components
+* Languages Used:
+    * HTML5
+    * CSS
+    * JavaScript (ES6)
+* APIs Used:
+    * [Google Maps](https://developers.google.com/maps/documentation/geocoding/start)
+    * [Google Maps JS](https://developers.google.com/maps/documentation/javascript/)
+    * [Instagram](https://www.instagram.com/developer/)
+* Other Tools:
+    * [Materialize](http://materializecss.com/) front-end framework
+    * [Brunch](http://brunch.io) build tool
