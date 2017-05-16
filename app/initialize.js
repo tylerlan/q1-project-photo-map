@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // do your setup here
-  console.log('Initialized app');
+const IndexPage = require('./pages/IndexPage');
+
+$(document).ready(() => {
+  const indexPage = new IndexPage(document.getElementById('main'));
 });
