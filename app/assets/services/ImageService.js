@@ -17,7 +17,9 @@ const MyRecentMedia = `https://api.instagram.com/v1/users/self/media/recent/?acc
 const aboutMe = `https://api.instagram.com/v1/users/self/?access_token=${MY_AUTH_TOKEN}`
 
 module.exports = class ImageService {
-  constructor () {
+  constructor (latitude, longitude) {
+    this.latitude = latitude;
+    this.longitude = longitude;
   }
 
 
