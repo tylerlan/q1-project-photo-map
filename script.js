@@ -142,6 +142,9 @@ class Map {
 //
 // });
 
+
+
+
 class InstaData {
   constructor() {
     this.TOKEN = '256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f';
@@ -161,8 +164,7 @@ class InstaData {
         // console.log(bio.profile_picture);
 
         $('#instabio').append(
-          `<div class="col s12 m6 l6">
-            <div class="card horizontal center-align">
+          `<div class="card horizontal">
               <div class="card-image">
                 <img src="${bio.profile_picture}">
               </div>
@@ -175,8 +177,7 @@ class InstaData {
                   <a href="#">This is a link</a>
                 </div>
               </div>
-            </div>
-        </div>`
+            </div>`
       );
 
       })
