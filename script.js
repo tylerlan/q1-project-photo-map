@@ -59,8 +59,10 @@ function initMap() {
 //       // consecutively rather than all at once. This example shows how to use
 //       // window.setTimeout() to space your markers' animation.
 //
+//
+//
 //       class RenderMarkers {
-//         constructor(coords, ) {
+//         constructor(coords) {
 //
 //           this.photoPositions = coords;
 //
@@ -190,7 +192,6 @@ class InstaData {
   getRecentPics() {
     const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.TOKEN}`;
 
-    // var request = fetchJsonp(recentPics);
     var request = fetch(recentPics);
 
     request
@@ -204,8 +205,12 @@ class InstaData {
           let coordinates = { lat: lat, lng: lng};
           let caption = data.data[x].caption.text;
           let imgId = data.data[x].id;
+
+          // Check to see whether the available photos are near the search coordinates
+          // photoPositions.push(coordinates);
+
           createMarker(coordinates, imgId, caption);
-          // photoPositions.push(coordinates); // Put positions in an array that can be accesed by animator
+
         }
         $('#instafeed').append(`<img src="${thumbnailURL}">`);
       }
@@ -220,13 +225,15 @@ function createMarker(position, title, description) {
                   position: position,
                   map: map, // map is a global variable
                   title: title,
+                  icon: "assets/img/ic_camera_1x.png",
                   animation: google.maps.Animation.DROP
                   });
 
-    let contentString = `<p>${description}</p>`;
+    let contentString = `<h3>${title}</h3><p>${description}</p>`;
 
     let infowindow = new google.maps.InfoWindow({
-                      content: description
+                      content: description,
+                      maxWidth: 200
                       });
 
     marker.addListener('click', function() {
