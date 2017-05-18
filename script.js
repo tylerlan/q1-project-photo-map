@@ -1,22 +1,3 @@
-// Instagram requires that we use jsonp, but normal fetch cannot understand jsonp
-// Therefore, we installed this fetch-jsonp [https://www.npmjs.com/package/fetch-jsonp]
-
-/*
-
-const fetchJsonp = require('fetch-jsonp');
-
-*/
-
-/*==========
-HELP ME, JOSH, I CAN'T SEEM TO:
-- USE FETCH() WITHOUT CORS EXTENSION
-OR
-- USE FETCHJSONP
-==========*/
-
-/* =============================================================== */
-
-
 // Start by generating a Google map over San Francisco
 
 // Mark the map with pins representing the geolocation of all the pictures I've taken recently
@@ -166,29 +147,6 @@ class Map {
                             INSTAGRAM
 ===================================================================*/
 
-// var TOKEN = '256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f';
-// var num_photos = 20;
-
-/* GET MY INFO */
-// $.ajax({
-//   type: "GET",
-//   dataType: "jsonp",
-//   url: 'https://api.instagram.com/v1/users/self',
-//   data: {access_token: TOKEN},
-//
-//   success: function(data) {
-//     $('.name').text(data.data.username);
-//     $('.tagline').text(data.data.bio);
-//   }
-//   error: function(data) {
-//     // console.log(data);
-//   }
-//
-// });
-
-
-
-
 class InstaData {
   constructor() {
     this.TOKEN = '256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f';
@@ -276,34 +234,6 @@ function createMarker(position, title, description) {
     });
 
 }
-
-// /* GET MY RECENT PICTURES */
-// $.ajax({
-//   url: 'https://api.instagram.com/v1/users/self/media/recent',
-//   dataType: 'jsonp',
-//   type: 'GET',
-//   data: {
-//     access_token: TOKEN,
-//     count: num_photos
-//   },
-  // success: function(data) {
-  //   // console.log(data);
-  //   for (x in data.data) {
-  //     console.log(data.data[x].images);
-  //     let lat = data.data[x].location.latitude;
-  //     let lng = data.data[x].location.longitude;
-  //     if (lat && lng) { console.log('LOCATION DATA:', lat, lng) };
-  //
-      // console.log(data.data[x].location);
-//
-//     $('#instafeed').append(
-//       '<div class="col s12 m8 l3"><img src="' + data.data[x].images.thumbnail.url + '"></div>');
-//   }
-// },
-//   error: function(data) {
-//     // console.log(data);
-//   }
-// });
 
 /* *****************************************************************
                             RUN IT
