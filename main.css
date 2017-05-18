@@ -1,0 +1,61 @@
+/* =====================
+          MAP
+==================== */
+
+
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+
+#map {
+  margin: auto;
+  height: 30em;
+  width: 60em;
+}
+
+
+/* Optional: Makes the sample page fill the window. */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =====================
+    INSTAGRAM FEED
+==================== */
+
+#instafeed {
+  list-style: none
+}
+
+#instafeed li {
+  float: left;
+  width: 200px;
+  height: 200px;
+  margin: 10px
+}
+
+#instafeed li img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#instafeed img {
+  border-radius: 50%;
+}
+
+
+/* =====================
+    INSTAGRAM BIO
+==================== */
+
+.card.horizontal {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  /*margin-left: 60%;
+  width: 500px;
+  height: 200px;*/
+}

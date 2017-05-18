@@ -13,8 +13,10 @@
   <!--Import Roboto font-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Roboto">
   <!--Import materialize.css-->
-  <link rel="stylesheet" href="css/materialize.min.css">
-  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="assets/css/materialize.min.css">
+
+  <!--Import my styles-->
+  <link rel="stylesheet" href="main.css">
 
 </head>
 
@@ -32,33 +34,47 @@
     </nav>
   </div>
 
+
+
   <!-- MAIN -->
-  <div class="row container" id="main">
+  <div class="row container">
+    <div class="container col s12 m12 center">
 
-    <div class="col s12 m7">
-      <div class="row">
-        <h3>Map</h3>
-
+      <div class="searchBox">
         <form action="">
-          <input type="text" name="location">
-          <button type="submit">submit</button>
+          <input type="text" name="location" id="location" placeholder="Enter location" class="validate center">
+          <button type="submit" id="submit">generate</button>
         </form>
+      </div>
 
+    </div>
+  </div>
+
+  <div class="row container center" id="main">
+
+      <div class="row">
+        <h5>Map</h5>
         <div id="map"></div>
 
       </div>
-    </div>
 
-    <div class="col s12 m7">
       <div class="row">
-        <h3>Images</h3>
+        <h5>Images</h5>
 
-        <div id="images"></div>
+        <div id="images">
+
+          <div class="row" id="instafeed"></div>
 
       </div>
     </div>
 
+    <div class="row">
+      <h5>Bio</h5>
+      <div class="row" id="instabio"></div>
+
   </div>
+</div>
+
 
   <!-- FOOTER -->
   <footer class="page-footer blue darken-3">
@@ -84,13 +100,27 @@
   </footer>
 
 
+<!-- .............MUSIC PLAYER......... -->
+
+  <!-- MUSIC PLAYER CANNOT FUNCTION WITH CORS PLUGIN RUNNING -->
+
+  <!-- SCM Music Player http://scmplayer.co -->
+  <script type="text/javascript" src="http://scmplayer.co/script.js"
+  data-config="{'skin':'http://static.tumblr.com/qy3ncdl/1Xymjq2mw/coroakeepcalm3d.css','volume':75,'autoplay':false,'shuffle':false,'repeat':1,'placement':'bottom','showplaylist':false,'playlist':[{'title':'minks and shoes','url':'https://www.youtube.com/watch?v=7XiJEmnEIGE'}]}"></script>
+  <!-- SCM Music Player script end -->
+
+  <!-- TRYING TO FIGURE OUT HOW I CAN USE THE SOURCE CODE DIRECTLY AND MAKE SOME CHANGES -->
+  <!-- >> GITHUB: https://github.com/cshum/scm-music-player -->
+
+  <!-- <script src="assets/js/musicPlayer.js"></script> -->
+
+  <!-- ...............END............ -->
+
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtet_-9zOt0miA0G0mlaeldeICJvlrBVI&callback=initMap"></script>
-  <script src="js/jquery-2.2.4.min.js"></script>
-  <script src="js/materialize.min.js"></script>
-  <script src="/app.js"></script>
-  <script>
-    require('initialize');
-  </script>
+  <script src="assets/js/jquery-2.2.4.min.js"></script>
+  <script src="assets/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+
 
 </body>
