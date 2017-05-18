@@ -327,12 +327,6 @@ function doSomethingWithUserInput(searchTerm) {
 
 }
 
-// let testSearch = new Map;
-// testSearch.search('44 Tehama St, San Francisco, CA')
-
-
-
-
 
 
 
