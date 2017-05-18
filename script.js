@@ -70,6 +70,50 @@ function initMap() {
 
 }
 
+// /* ===================================================================
+//                     MAKER DROPPING ANIMATION
+// ===================================================================*/
+//
+//       // If you're adding a number of markers, you may want to drop them on the map
+//       // consecutively rather than all at once. This example shows how to use
+//       // window.setTimeout() to space your markers' animation.
+//
+//       class RenderMarkers {
+//         constructor(coords, ) {
+//
+//           this.photoPositions = coords;
+//
+//
+//         }
+//
+//         var photoMarkers = [];
+//
+//         drop() {
+//           clearMarkers();
+//           for (var i = 0; i < photoPositions.length; i++) {
+//             addMarkerWithTimeout(photoPositions[i], i * 200);
+//           }
+//         }
+//
+//
+//
+//         addMarkerWithTimeout(position, timeout) {
+//           window.setTimeout(function() {
+//             photoMarkers.push(new google.maps.Marker({
+//               position: position,
+//               map: map,
+//               animation: google.maps.Animation.DROP
+//             }));
+//           }, timeout);
+//         }
+//
+//         clearMarkers() {
+//           for (var i = 0; i < photoMarkers.length; i++) {
+//             photoMarkers[i].setMap(null);
+//           }
+//           photoMarkers = [];
+//         }
+//       }
 
 /* ===================================================================
                             GEOCODING
@@ -159,22 +203,24 @@ class InstaData {
       .then(response => response.json())
       .then(data => data.data)
       .then(bio => {
-        // console.log(bio.bio);
-        // console.log(bio.full_name);
-        // console.log(bio.profile_picture);
-
         $('#instabio').append(
-          `<div class="card horizontal">
-              <div class="card-image">
-                <img src="${bio.profile_picture}">
-              </div>
-              <div class="card-stacked">
-                <div class="card-content">
-                  <h4>${bio.full_name}</h4>
-                  <p>${bio.bio}</p>
-                </div>
-                <div class="card-action">
-                  <a href="#">This is a link</a>
+          `<div class="row valign-wrapper">
+            <div class="col s8 offset-s2 valign">
+              <div class="card horizontal">
+                  <div class="card-image">
+                    <img src="${bio.profile_picture}">
+                  </div>
+                  <div class="card-stacked">
+                    <div class="card-content">
+                      <h4>${bio.full_name}</h4>
+                      <p>${bio.bio}</p>
+                    </div>
+                    <div class="card-action">
+                      <a target="_blank" href="https://www.linkedin.com/in/tylerlangenbrunner/"><i class="material-icons">domain</i></a>
+                      <a target="_blank" href="https://github.com/tylerlan"><i class="material-icons">code</i></a>
+                      <a target="_blank" href="https://twitter.com/tylerdevs"><i class="material-icons">trending_up</i></a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>`
@@ -192,18 +238,16 @@ class InstaData {
     request
     .then(response => response.json())
     .then(data => {
-      for (let x in data.data) {
-        // console.log(data.data[0]);
+      for (let x in data.data) { // PRINCIPAL FOR LOOP ---------------
         let thumbnailURL = data.data[x].images.thumbnail.url;
-        // console.log(thumbnailURL);
         if (data.data[x].location) {
           let lat = data.data[x].location.latitude;
           let lng = data.data[x].location.longitude;
           let coordinates = { lat: lat, lng: lng};
           let caption = data.data[x].caption.text;
           let imgId = data.data[x].id;
-          // if (lat && lng) { console.log('LOCATION DATA:', lat, lng) };
           createMarker(coordinates, imgId, caption);
+          // photoPositions.push(coordinates); // Put positions in an array that can be accesed by animator
         }
         $('#instafeed').append(`<img src="${thumbnailURL}">`);
       }
@@ -217,7 +261,8 @@ function createMarker(position, title, description) {
     let marker = new google.maps.Marker({
                   position: position,
                   map: map, // map is a global variable
-                  title: title
+                  title: title,
+                  animation: google.maps.Animation.DROP
                   });
 
     let contentString = `<p>${description}</p>`;
