@@ -192,22 +192,38 @@ class InstaData {
     request
     .then(response => response.json())
     .then(data => {
+      var parsedPhotoObjectsArray = []; // Resets the array every time you call the method
+      var photoMarkersArray = [];
+
       data.data.forEach( (photoObject) => {
-        // console.log(photoObject);
-          let thumbnailURL = photoObject.images.thumbnail.url;
-          let caption = photoObject.caption.text;
-          let link = photoObject.link;
-          let tagsArray = photoObject.tags;
+        var parsedPhotoObject = {
+          thumbnailURL : photoObject.images.thumbnail.url,
+          imgId : photoObject.id,
+          caption : photoObject.caption.text,
+          link : photoObject.link,
+          tagsArray : photoObject.tags
+        }
 
         if (photoObject.location) { // If the image is geocoded...
           let lat = photoObject.location.latitude;
           let lng = photoObject.location.longitude;
-          let coords = { lat: lat, lng: lng};
-          let locationName = photoObject.location.name;
+          parsedPhotoObject.lat = lat;
+          parsedPhotoObject.lng = lng;
+          parsedPhotoObject.coords = { lat: lat, lng: lng};
+          parsedPhotoObject.locationName = photoObject.location.name;
 
-          createMarker(coords, locationName, caption, link);
         }
-        $('#instafeed').append(`<img class="fadeIn" src="${thumbnailURL}">`)
+        parsedPhotoObjectsArray.push(parsedPhotoObject);
+
+      } )
+      return parsedPhotoObjectsArray;
+
+    })
+    .then( objArray => {
+      objArray.forEach( (obj) => {
+        console.log("OBJ", obj);
+        createMarker(obj.coords, obj.locationName, obj.caption, obj.link);
+        $('#instafeed').append(`<img class="fadeIn" src="${obj.thumbnailURL}">`)
       } )
     })
     .catch(console.log)

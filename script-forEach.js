@@ -192,44 +192,22 @@ class InstaData {
     request
     .then(response => response.json())
     .then(data => {
-      var parsedPhotoObjectsArray = []; // Resets the array every time you call the method
-
       data.data.forEach( (photoObject) => {
         // console.log(photoObject);
-        var parsedPhotoObject = {
-          thumbnailURL : photoObject.images.thumbnail.url,
-          imgId : photoObject.id,
-          caption : photoObject.caption.text,
-          link : photoObject.link
-        }
+          let thumbnailURL = photoObject.images.thumbnail.url;
+          let caption = photoObject.caption.text;
+          let link = photoObject.link;
+          let tagsArray = photoObject.tags;
 
         if (photoObject.location) { // If the image is geocoded...
           let lat = photoObject.location.latitude;
           let lng = photoObject.location.longitude;
-          parsedPhotoObject.lat = lat;
-          parsedPhotoObject.lng = lng;
-          parsedPhotoObject.coords = { lat: lat, lng: lng};
+          let coords = { lat: lat, lng: lng};
+          let locationName = photoObject.location.name;
 
-          // let lat = photoObject.location.latitude;
-          // let lng = photoObject.location.longitude;
-          // let coords = { lat: lat, lng: lng};
-          // let imgId = photoObject.id;
-          // let caption = photoObject.caption.text;
-          // let linkToOG = photoObject.link;
-
-          parsedPhotoObjectsArray.push(parsedPhotoObject);
-
+          createMarker(coords, locationName, caption, link);
         }
-
-      } )
-      return parsedPhotoObjectsArray;
-
-    })
-    .then( objArray => {
-      objArray.forEach( (obj) => {
-        // console.log("OBJ", obj);
-        createMarker(obj.cords, obj.imgId, obj.caption, obj.link);
-        $('#instafeed').append(`<img class="fadeIn" src="${obj.thumbnailURL}">`)
+        $('#instafeed').append(`<img class="fadeIn" src="${thumbnailURL}">`)
       } )
     })
     .catch(console.log)
@@ -246,7 +224,7 @@ function createMarker(position, title, description, link) {
                   animation: google.maps.Animation.DROP
                   });
 
-    let contentString = `<h3>${title}</h3><p>${description}</p><a target="_blank" href="${link}">original</a>`;
+    let contentString = `<h6>${title}</h6><p>${description}</p><a target="_blank" href="${link}">original</a>`;
 
     let infowindow = new google.maps.InfoWindow({
                       content: contentString,
