@@ -14,25 +14,26 @@
 var map;
 
 function initMap() {
-  let san_francisco = {
-    lat: 37.7749295,
-    lng: -122.4194155
+  let initial = {
+    lat: Number((Math.random()*90).toFixed(3)),
+    lng: Number((Math.random()*-130).toFixed(3))
   };
+  console.log(initial);
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 12,
-    center: san_francisco
+    zoom: 10,
+    center: initial
   });
 
-  let contentString = `<div id="content"><h4>This City</h4><div id="bodyContent"><p>Here is some text</p></div></div>`;
+  let contentString = `<div id="content"><h4>Welcome</h4><div id="bodyContent"><p>Where are we?</p><p>Nevermind.</p><p>There's nothing interesting here.</p><p>Let's go somewhere else.</p></div></div>`;
 
   let infowindow = new google.maps.InfoWindow({
     content: contentString
   });
 
   let marker = new google.maps.Marker({
-    position: san_francisco,
+    position: initial,
     map: map,
-    title: 'San Francisco'
+    title: 'Starting Location'
   });
 
   marker.addListener('click', function() {
@@ -40,58 +41,6 @@ function initMap() {
   });
 
 }
-
-// /* ===================================================================
-//                     MAKER DROPPING ANIMATION
-// ===================================================================*/
-//
-//       // If you're adding a number of markers, you may want to drop them on the map
-//       // consecutively rather than all at once. This example shows how to use
-//       // window.setTimeout() to space your markers' animation.
-//
-//
-//
-//       class RenderMarkers {
-//         constructor(coords) {
-//
-//           this.photoPositions = coords;
-//
-//
-//         }
-//
-
-//YOU ARE BELOW HERE//--------------------------------------------------------------------
-        // var photoMarkers = []; // global variable
-        // var photoPositions = []; // global variable
-        //
-        //
-        // function drop() {
-        //   clearMarkers();
-        //   for (var i = 0; i < photoPositions.length; i++) {
-        //     addMarkerWithTimeout(photoPositions[i], i * 200);
-        //   }
-        // }
-        //
-        // function addMarkerWithTimeout(position, timeout) {
-        //   window.setTimeout(function() {
-        //     photoMarkers.push(new google.maps.Marker({
-        //       position: position,
-        //       map: map,
-        //       animation: google.maps.Animation.DROP
-        //     }));
-        //   }, timeout);
-        // }
-        //
-        // function clearMarkers() {
-        //   for (var i = 0; i < photoMarkers.length; i++) {
-        //     photoMarkers[i].setMap(null);
-        //   }
-        //   photoMarkers = [];
-        // }
-//YOU ARE ABOVE HERE//--------------------------------------------------------------------
-
-
-      // }
 
 /* ===================================================================
                             GEOCODING
@@ -122,7 +71,7 @@ class Map {
         lat: latitude,
         lng: longitude
       },
-      zoom: 12
+      zoom: 14
     });
   }
 };
