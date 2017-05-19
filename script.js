@@ -17,7 +17,7 @@ function initMap() {
   }
   map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
-  let contentString = `<div id="content"><h4>Welcome</h4><div id="bodyContent"><p>Where are we?</p><p>Nevermind.</p><p>There's nothing interesting here.</p><p>Let's go somewhere else.</p></div></div>`;
+  let contentString = `<h4>Welcome</h4><p>Where are we?</p><p>Who cares, there's nothing interesting here. Enter a location in the search bar above and click generate to view that location and see if there are any pictures there.</p>`;
 
   let marker = new google.maps.Marker({
     position: startingPosition,
@@ -58,21 +58,12 @@ function processUserInput(searchTerm) {
   let generateMap = new Map;
   let newMapPosition = generateMap.search(searchTerm);
 
-  return newMapPosition
+  newMapPosition
     .then(currentLocation => {
-      let generateInstaContent = new InstaData;
+      var generateInstaContent = new InstaData;
       return generateInstaContent.getRecentPics(currentLocation);
     })
-    .then(numberOfPhotosPresent => {
-      if (numberOfPhotosPresent > 0) {
-        generateInstaContent.getMyInfo();
-      } else {
-        alert('No photos at this location. Looks like a lovely area though.')
-      }
-    })
     .catch( err => console.log(err))
-
-
 
 }
 
@@ -108,7 +99,6 @@ class Map {
     }
     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
-    // return `${latitude}, ${longitude}`;
     return {lat: latitude, lng: longitude};
   }
 
@@ -206,7 +196,13 @@ class InstaData {
           }
           // If the photo has no location, it disppears into the ether...
       } )
-      return numberOfPhotosAtThisLocation;
+
+      if (numberOfPhotosAtThisLocation > 0) {
+        this.getMyInfo();
+      } else {
+        alert('No photos at this location. Looks like a lovely area though.')
+      }
+
     })
     .catch( err => console.log(err))
   }
