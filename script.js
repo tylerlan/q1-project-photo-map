@@ -58,12 +58,19 @@ function processUserInput(searchTerm) {
   let generateMap = new Map;
   let newMapPosition = generateMap.search(searchTerm);
 
-  newMapPosition.then(currentLocation => {
-    let generateInstaContent = new InstaData;
-    generateInstaContent.getRecentPics(currentLocation);
-    generateInstaContent.getMyInfo();
+  newMapPosition
+    .then(currentLocation => {
+      let generateInstaContent = new InstaData;
+      return generateInstaContent.getRecentPics(currentLocation);
+    })
+    .then(numberOfPhotosPresent => {
+      if (numberOfPhotosPresent > 0) {
+        generateInstaContent.getMyInfo();
+      } else {
+        alert('No photos at this location')
+      }
+    })
 
-  })
 
 
 }
@@ -173,8 +180,8 @@ class InstaData {
     request
     .then(response => response.json())
     .then(data => {
+      var numberOfPhotosAtThisLocation = 0;
       data.data.forEach( (photoObject) => {
-
         // start loading content
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
@@ -188,7 +195,7 @@ class InstaData {
             let locationName = photoObject.location.name;
 
             if (isNearby(coords, currentLocation)) { // If the photo is nearby, render it
-
+              numberOfPhotosAtThisLocation++
               createMarker(coords, locationName, caption, link);
               $('#instafeed').append(`
                 <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
@@ -197,8 +204,9 @@ class InstaData {
           }
           // If the photo has no location, it disppears into the ether...
       } )
-      if
+      return numberOfPhotosAtThisLocation;
     })
+    .then(console.log)
     .catch(console.log)
   }
 }
