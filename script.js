@@ -56,11 +56,15 @@ $('#submit').click((event) => {
 
 function processUserInput(searchTerm) {
   let generateMap = new Map;
-  generateMap.search(searchTerm);
+  let newMapPosition = generateMap.search(searchTerm);
 
-  let generateInstaContent = new InstaData;
-  generateInstaContent.getRecentPics();
-  generateInstaContent.getMyInfo();
+  newMapPosition.then(currentLocation => {
+    let generateInstaContent = new InstaData;
+    generateInstaContent.getRecentPics(currentLocation);
+    generateInstaContent.getMyInfo();
+
+  })
+
 
 }
 
@@ -76,23 +80,26 @@ class Map {
     var lookup = `${GEO_URL}${searchTerm}&key=${GEO_KEY}`;
     var request = fetch(encodeURI(lookup));
 
-    request
+    return request
       .then(mapsResponse => mapsResponse.json())
       .then(locationObject => locationObject.results[0].geometry.location)
       .then(locationCoordinates => {
         let lat = locationCoordinates.lat;
         let lng = locationCoordinates.lng;
-        this.initMap(lat, lng);
+        return this.createMap(lat, lng);
       })
   }
 
-  initMap(latitude, longitude) {
+  createMap(latitude, longitude) {
     var newPosition = new google.maps.LatLng(latitude, longitude);
     var mapSpecs = {
       zoom: 12,
       center: newPosition,
     }
     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
+
+    // return `${latitude}, ${longitude}`;
+    return {lat: latitude, lng: longitude};
   }
 
 };
@@ -157,36 +164,55 @@ class InstaData {
       })
   }
 
-  getRecentPics() {
+  getRecentPics(currentLocation) {
     const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.TOKEN}`;
 
     var request = fetch(recentPics);
+    console.log(currentLocation);
 
     request
     .then(response => response.json())
     .then(data => {
       data.data.forEach( (photoObject) => {
-        // console.log(photoObject);
+
+        // start loading content
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
           let link = photoObject.link;
           let tagsArray = photoObject.tags;
 
-        if (photoObject.location) { // If the image is geocoded...
-          let lat = photoObject.location.latitude;
-          let lng = photoObject.location.longitude;
-          let coords = { lat: lat, lng: lng};
-          let locationName = photoObject.location.name;
+          if (photoObject.location) { // If the image is geocoded...
+            let lat = photoObject.location.latitude;
+            let lng = photoObject.location.longitude;
+            let coords = { lat: lat, lng: lng};
+            let locationName = photoObject.location.name;
 
-          createMarker(coords, locationName, caption, link);
-        }
-        $('#instafeed').append(`
-          <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
-          `)
+            if (isNearby(coords, currentLocation)) { // If the photo is nearby, render it
+
+              createMarker(coords, locationName, caption, link);
+              $('#instafeed').append(`
+                <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
+                `)
+            }
+          }
+          // If the photo has no location, it disppears into the ether...
       } )
+      if
     })
     .catch(console.log)
   }
+}
+
+function isNearby(photoCoords, referenceCoords) {
+  let testLat = photoCoords.lat;
+  let testLng = photoCoords.lng;
+
+  let maxLat = referenceCoords.lat + 0.08;
+  let minLat = referenceCoords.lat - 0.08;
+  let maxLng = referenceCoords.lng + 0.08;
+  let minLng = referenceCoords.lng - 0.08;
+
+  return (testLat <= maxLat && testLat >= minLat) && (testLng <= maxLng && testLng >= minLng);
 }
 
 function createMarker(position, title, description, link) {
