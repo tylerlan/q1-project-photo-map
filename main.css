@@ -2,6 +2,7 @@
           MAP
 ==================== */
 
+
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
 
@@ -45,16 +46,16 @@ html, body {
   border-radius: 50%;
 }
 
-.fadeIn {
-   opacity: 0.75;
-   transition: opacity .25s ease-in-out;
-   -moz-transition: opacity .25s ease-in-out;
-   -webkit-transition: opacity .25s ease-in-out;
-   }
-
-.fadeIn:hover {
+.fade {
   opacity: 1;
-  }
+  transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -webkit-transition: opacity .25s ease-in-out;
+}
+
+.fade:hover {
+  opacity: 0.5;
+}
 
 /* =====================
     INSTAGRAM BIO

@@ -193,11 +193,11 @@ class InstaData {
     .then(response => response.json())
     .then(data => {
       var parsedPhotoObjectsArray = []; // Resets the array every time you call the method
-      var photoMarkersArray = [];
 
       data.data.forEach( (photoObject) => {
+        // console.log(photoObject);
         var parsedPhotoObject = {
-          thumbnailURL : photoObject.images.thumbnail.url,
+          thumbnail : photoObject.images.thumbnail.url,
           imgId : photoObject.id,
           caption : photoObject.caption.text,
           link : photoObject.link,
@@ -219,11 +219,12 @@ class InstaData {
       return parsedPhotoObjectsArray;
 
     })
-    .then( objArray => {
-      objArray.forEach( (obj) => {
-        console.log("OBJ", obj);
+    .then( objsArray => {
+      objsArray.forEach( (obj) => {
         createMarker(obj.coords, obj.locationName, obj.caption, obj.link);
-        $('#instafeed').append(`<img class="fadeIn" src="${obj.thumbnailURL}">`)
+        $('#instafeed').append(`
+            <a target="_blank" href="${obj.link}"><img class="fade" src="${obj.thumbnail}"></a>
+            `)
       } )
     })
     .catch(console.log)
