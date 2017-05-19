@@ -2,7 +2,7 @@
   "name": "q1-project-simplified",
   "author": "tyler.langenbrunner@gmail.com",
   "version": "1.0.0",
-  "description": "",
+  "description": "My quarter 1 project: Mapstagram!",
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
