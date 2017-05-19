@@ -6,7 +6,8 @@
 
 var map;
 
-function initMap() {
+// NOTE: Google scirpt in HTMl looks for this function initMap and runs it as a callback on page load
+function initMap() { // eslint-disable-line
   let latitude = Number((Math.random() * 90).toFixed(3));
   let longitude = Number((Math.random() * -130).toFixed(3));
 
@@ -63,7 +64,7 @@ function processUserInput(searchTerm) {
       var generateInstaContent = new InstaData;
       return generateInstaContent.getRecentPics(currentLocation);
     })
-    .catch( err => console.log(err))
+    .catch( err => console.log(err)) // eslint-disable-line
 
 }
 
@@ -87,7 +88,7 @@ class Map {
         let lng = locationCoordinates.lng;
         return this.createMap(lat, lng);
       })
-      .catch( err => console.log(err))
+      .catch( err => console.log(err)) // eslint-disable-line
 
   }
 
@@ -103,10 +104,6 @@ class Map {
   }
 
 }
-
-
-
-
 
 // // REDIRECT_URI and CLIENT_ID are both references to my app, not the user
 // const REDIRECT_URI = 'http://localhost:3333'
@@ -174,11 +171,10 @@ class InstaData {
     .then(data => {
       var numberOfPhotosAtThisLocation = 0;
       data.data.forEach( (photoObject) => {
-        // start loading content
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
           let link = photoObject.link;
-          let tagsArray = photoObject.tags;
+          // let tagsArray = photoObject.tags;
 
           if (photoObject.location) { // If the image is geocoded...
             let lat = photoObject.location.latitude;
@@ -194,7 +190,7 @@ class InstaData {
                 `)
             }
           }
-          // If the photo has no location, it disppears into the ether...
+          // NOTE: If the photo has no location, it disppears into the ether...
       } )
 
       if (numberOfPhotosAtThisLocation > 0) {
@@ -204,7 +200,7 @@ class InstaData {
       }
 
     })
-    .catch( err => console.log(err))
+    .catch( err => console.log(err)) // eslint-disable-line
   }
 }
 
@@ -223,7 +219,7 @@ function isNearby(photoCoords, referenceCoords) {
 function createMarker(position, title, description, link) {
     let marker = new google.maps.Marker({
                   position: position,
-                  map: map, // map is a global variable
+                  map: map,
                   title: title,
                   icon: "assets/img/ic_camera_1x.png",
                   animation: google.maps.Animation.DROP

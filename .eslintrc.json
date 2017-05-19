@@ -9,5 +9,9 @@
     "es6": true,
     "node": true,
     "jquery": true
+  },
+  "globals": {
+    "google": true,
+    "initMap": true
   }
 }
