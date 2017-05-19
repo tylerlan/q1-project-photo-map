@@ -15,6 +15,7 @@ function initMap() { // eslint-disable-line
   var mapSpecs = {
     zoom: 10,
     center: startingPosition,
+    mapTypeId: 'satellite'
   }
   map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
