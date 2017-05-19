@@ -14,13 +14,13 @@
 var map;
 
 function initMap() {
-  let latitude = Number((Math.random()*90).toFixed(3));
-  let longitude = Number((Math.random()*-130).toFixed(3));
+  let latitude = Number((Math.random() * 90).toFixed(3));
+  let longitude = Number((Math.random() * -130).toFixed(3));
 
   var startingPosition = new google.maps.LatLng(latitude, longitude);
   var mapSpecs = {
-      zoom : 10,
-      center : startingPosition,
+    zoom: 10,
+    center: startingPosition,
   }
   map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
@@ -35,9 +35,11 @@ function initMap() {
   var infowindow = new google.maps.InfoWindow();
 
   marker.addListener('click', function() {
-     infowindow.setContent(contentString);
-     infowindow.setOptions({maxWidth:400});
-     infowindow.open(map, marker);
+    infowindow.setContent(contentString);
+    infowindow.setOptions({
+      maxWidth: 400
+    });
+    infowindow.open(map, marker);
   });
 
 }
@@ -65,15 +67,14 @@ class Map {
   }
 
   initMap(latitude, longitude) {
-     var newPosition = new google.maps.LatLng(latitude, longitude);
-     var mapSpecs = {
-         zoom : 12,
-         center : newPosition,
-     }
-     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
-     console.log('MAP BOUNDS:', map.getBounds());
+    var newPosition = new google.maps.LatLng(latitude, longitude);
+    var mapSpecs = {
+      zoom: 12,
+      center: newPosition,
+    }
+    map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
- }
+  }
 
 };
 
@@ -132,7 +133,7 @@ class InstaData {
                 </div>
               </div>
             </div>`
-      );
+        );
 
       })
   }
@@ -145,42 +146,24 @@ class InstaData {
     request
     .then(response => response.json())
     .then(data => {
-      var parsedPhotoObjectsArray = []; // Resets the array every time you call the method
-
       data.data.forEach( (photoObject) => {
         // console.log(photoObject);
-        var parsedPhotoObject = {
-          thumbnail : photoObject.images.thumbnail.url,
-          imgId : photoObject.id,
-          caption : photoObject.caption.text,
-          link : photoObject.link,
-          tagsArray : photoObject.tags
-        }
+          let thumbnail = photoObject.images.thumbnail.url;
+          let caption = photoObject.caption.text;
+          let link = photoObject.link;
+          let tagsArray = photoObject.tags;
 
         if (photoObject.location) { // If the image is geocoded...
           let lat = photoObject.location.latitude;
           let lng = photoObject.location.longitude;
-          parsedPhotoObject.lat = lat;
-          parsedPhotoObject.lng = lng;
-          parsedPhotoObject.coords = { lat: lat, lng: lng};
-          parsedPhotoObject.locationName = photoObject.location.name;
+          let coords = { lat: lat, lng: lng};
+          let locationName = photoObject.location.name;
 
+          createMarker(coords, locationName, caption, link);
         }
-        parsedPhotoObjectsArray.push(parsedPhotoObject);
-
-      } )
-      return parsedPhotoObjectsArray;
-
-    })
-    .then( objsArray => {
-      objsArray.forEach( (obj) => {
-
-        if (map.getBounds().contains(obj.coords)) {
-          createMarker(obj.coords, obj.locationName, obj.caption, obj.link);
-          $('#instafeed').append(`
-              <a target="_blank" href="${obj.link}"><img class="fade" src="${obj.thumbnail}"></a>
-              `)
-            }
+        $('#instafeed').append(`
+          <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
+          `)
       } )
     })
     .catch(console.log)
