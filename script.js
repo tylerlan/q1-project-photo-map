@@ -6,7 +6,7 @@
 
 
 /* ===================================================================
-                            GOOGLE MAP
+          I N I T I A L     M A P     G E N E R A T I O N
 ===================================================================*/
 
 // const MAP_KEY = 'AIzaSyDtet_-9zOt0miA0G0mlaeldeICJvlrBVI';
@@ -43,7 +43,7 @@ function initMap() {
 }
 
 /* ===================================================================
-                            GEOCODING
+            N E W      M A P      G E N E R A T I O N
 ===================================================================*/
 
 const GEO_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='
@@ -65,16 +65,20 @@ class Map {
   }
 
   initMap(latitude, longitude) {
-    console.log("LATITUDE:", latitude, "LONGITUDE:", longitude);
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: latitude,
-        lng: longitude
-      },
-      zoom: 14
-    });
-  }
+     var newPosition = new google.maps.LatLng(latitude, longitude);
+     var mapSpecs = {
+         zoom : 12,
+         center : newPosition,
+     }
+     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
+     console.log('MAP BOUNDS:', map.getBounds());
+
+ }
+
 };
+
+
+
 
 
 // // REDIRECT_URI and CLIENT_ID are both references to my app, not the user
@@ -90,7 +94,7 @@ class Map {
 
 
 /* ===================================================================
-                            INSTAGRAM
+                          I N S T A G R A M
 ===================================================================*/
 
 class InstaData {
@@ -107,7 +111,7 @@ class InstaData {
       .then(response => response.json())
       .then(data => data.data)
       .then(bio => {
-        $('#instabio').append(
+        $('#instabio').html(
           `<div class="row valign-wrapper">
             <div class="col s8 offset-s2 valign">
               <div class="card horizontal">
@@ -170,10 +174,13 @@ class InstaData {
     })
     .then( objsArray => {
       objsArray.forEach( (obj) => {
-        createMarker(obj.coords, obj.locationName, obj.caption, obj.link);
-        $('#instafeed').append(`
-            <a target="_blank" href="${obj.link}"><img class="fade" src="${obj.thumbnail}"></a>
-            `)
+
+        if (map.getBounds().contains(obj.coords)) {
+          createMarker(obj.coords, obj.locationName, obj.caption, obj.link);
+          $('#instafeed').append(`
+              <a target="_blank" href="${obj.link}"><img class="fade" src="${obj.thumbnail}"></a>
+              `)
+            }
       } )
     })
     .catch(console.log)
@@ -203,10 +210,9 @@ function createMarker(position, title, description, link) {
 
 }
 
-/* *****************************************************************
-                            RUN IT
-*****************************************************************
-*/
+/* **************************************************************
+     L I S T E N I N G     F O R     U S E R     I N P U T
+*************************************************************** */
 
 $('#submit').click((event) => {
   event.preventDefault();
