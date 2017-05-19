@@ -58,7 +58,7 @@ function processUserInput(searchTerm) {
   let generateMap = new Map;
   let newMapPosition = generateMap.search(searchTerm);
 
-  newMapPosition
+  return newMapPosition
     .then(currentLocation => {
       let generateInstaContent = new InstaData;
       return generateInstaContent.getRecentPics(currentLocation);
@@ -67,9 +67,10 @@ function processUserInput(searchTerm) {
       if (numberOfPhotosPresent > 0) {
         generateInstaContent.getMyInfo();
       } else {
-        alert('No photos at this location')
+        alert('No photos at this location. Looks like a lovely area though.')
       }
     })
+    .catch( err => console.log(err))
 
 
 
@@ -95,6 +96,8 @@ class Map {
         let lng = locationCoordinates.lng;
         return this.createMap(lat, lng);
       })
+      .catch( err => console.log(err))
+
   }
 
   createMap(latitude, longitude) {
@@ -109,7 +112,7 @@ class Map {
     return {lat: latitude, lng: longitude};
   }
 
-};
+}
 
 
 
@@ -175,7 +178,6 @@ class InstaData {
     const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.TOKEN}`;
 
     var request = fetch(recentPics);
-    console.log(currentLocation);
 
     request
     .then(response => response.json())
@@ -206,8 +208,7 @@ class InstaData {
       } )
       return numberOfPhotosAtThisLocation;
     })
-    .then(console.log)
-    .catch(console.log)
+    .catch( err => console.log(err))
   }
 }
 
@@ -224,7 +225,6 @@ function isNearby(photoCoords, referenceCoords) {
 }
 
 function createMarker(position, title, description, link) {
-  console.log('MAKING A NEW MARKER');
     let marker = new google.maps.Marker({
                   position: position,
                   map: map, // map is a global variable
