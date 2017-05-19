@@ -14,30 +14,30 @@
 var map;
 
 function initMap() {
-  let initial = {
-    lat: Number((Math.random()*90).toFixed(3)),
-    lng: Number((Math.random()*-130).toFixed(3))
-  };
-  console.log(initial);
-  map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 10,
-    center: initial
-  });
+  let latitude = Number((Math.random()*90).toFixed(3));
+  let longitude = Number((Math.random()*-130).toFixed(3));
+
+  var startingPosition = new google.maps.LatLng(latitude, longitude);
+  var mapSpecs = {
+      zoom : 10,
+      center : startingPosition,
+  }
+  map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
   let contentString = `<div id="content"><h4>Welcome</h4><div id="bodyContent"><p>Where are we?</p><p>Nevermind.</p><p>There's nothing interesting here.</p><p>Let's go somewhere else.</p></div></div>`;
 
-  let infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-
   let marker = new google.maps.Marker({
-    position: initial,
+    position: startingPosition,
     map: map,
     title: 'Starting Location'
   });
 
+  var infowindow = new google.maps.InfoWindow();
+
   marker.addListener('click', function() {
-    infowindow.open(map, marker);
+     infowindow.setContent(contentString);
+     infowindow.setOptions({maxWidth:400});
+     infowindow.open(map, marker);
   });
 
 }
