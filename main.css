@@ -45,6 +45,16 @@ html, body {
   border-radius: 50%;
 }
 
+.fadeIn {
+   opacity: 0.75;
+   transition: opacity .25s ease-in-out;
+   -moz-transition: opacity .25s ease-in-out;
+   -webkit-transition: opacity .25s ease-in-out;
+   }
+
+.fadeIn:hover {
+  opacity: 1;
+  }
 
 /* =====================
     INSTAGRAM BIO
