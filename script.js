@@ -1,10 +1,3 @@
-// Start by generating a Google map over San Francisco
-
-// Mark the map with pins representing the geolocation of all the pictures I've taken recently
-
-// When the user enters info in the search box, it moves the map to that area and re-renders the marks with my photos
-
-
 /* ===================================================================
           I N I T I A L     M A P     G E N E R A T I O N
 ===================================================================*/
@@ -44,6 +37,33 @@ function initMap() {
 
 }
 
+/* **************************************************************
+     L I S T E N I N G     F O R     U S E R     I N P U T
+*************************************************************** */
+
+$('#submit').click((event) => {
+  event.preventDefault();
+
+  let searchTerm = $('#location')[0].value;
+
+  if (searchTerm.length === 0) {
+    alert('You must enter a new location')
+  } else {
+    processUserInput(searchTerm);
+  }
+
+})
+
+function processUserInput(searchTerm) {
+  let generateMap = new Map;
+  generateMap.search(searchTerm);
+
+  let generateInstaContent = new InstaData;
+  generateInstaContent.getRecentPics();
+  generateInstaContent.getMyInfo();
+
+}
+
 /* ===================================================================
             N E W      M A P      G E N E R A T I O N
 ===================================================================*/
@@ -73,7 +93,6 @@ class Map {
       center: newPosition,
     }
     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
-
   }
 
 };
@@ -193,26 +212,7 @@ function createMarker(position, title, description, link) {
 
 }
 
-/* **************************************************************
-     L I S T E N I N G     F O R     U S E R     I N P U T
-*************************************************************** */
 
-$('#submit').click((event) => {
-  event.preventDefault();
-  let value = $('#location')[0].value;
-  console.log('VALUE', value);
-  doSomethingWithUserInput(value);
-})
-
-function doSomethingWithUserInput(searchTerm) {
-  let generateMap = new Map;
-  generateMap.search(searchTerm);
-
-  let generateInstaContent = new InstaData;
-  generateInstaContent.getRecentPics();
-  generateInstaContent.getMyInfo();
-
-}
 
 
 
