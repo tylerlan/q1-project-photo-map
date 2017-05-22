@@ -2,8 +2,6 @@
           I N I T I A L     M A P     G E N E R A T I O N
 ===================================================================*/
 
-// const MAP_KEY = 'AIzaSyDtet_-9zOt0miA0G0mlaeldeICJvlrBVI';
-
 var map;
 
 // NOTE: Google scirpt in HTMl looks for this function initMap and runs it as a callback on page load
@@ -74,7 +72,7 @@ function processUserInput(searchTerm) {
 ===================================================================*/
 
 const GEO_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-const GEO_KEY = 'AIzaSyA05MTxlz_LxdlkkhBtcp56kBDFt3pwbgE';
+const GEO_KEY = 'AIzaSyAAM1zPuVWdHPXAyIN7rhgk6lNsPVC-oIc';
 
 class Map {
   search(searchTerm) {
@@ -106,21 +104,31 @@ class Map {
 
 }
 
-// // REDIRECT_URI and CLIENT_ID are both references to my app, not the user
-// const REDIRECT_URI = 'http://localhost:3333'
-// const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68'
-
-// // I would need to put a 'log in' at the beginning, using the AUTH-URL
-// const AUTH_URL = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token
-
-// const MyRecentMedia = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${MY_AUTH_TOKEN}`;
-
-// const aboutMe = `https://api.instagram.com/v1/users/self/?access_token=${MY_AUTH_TOKEN}`
-
 
 /* ===================================================================
                           I N S T A G R A M
 ===================================================================*/
+
+// Get a new TOKEN:
+// https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token
+
+// REDIRECT_URI and CLIENT_ID are both references to my app, not the user
+
+// CLIENT-ID:
+// 4f9ed3b9afd94c3fbf0536a3a54f7a68
+
+// REDIRECT-URI:
+// http://mapstagram.surge.sh/
+
+// https://api.instagram.com/oauth/authorize/?client_id=4f9ed3b9afd94c3fbf0536a3a54f7a68&redirect_uri=http://mapstagram.surge.sh/&response_type=token
+
+
+
+//
+
+
+// NEW TOKEN: 256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f
+
 
 class InstaData {
   constructor() {
