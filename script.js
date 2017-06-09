@@ -104,7 +104,6 @@ class Map {
 
 }
 
-
 /* ===================================================================
                           I N S T A G R A M
 ===================================================================*/
@@ -121,11 +120,6 @@ class Map {
 // http://mapstagram.surge.sh/
 
 // https://api.instagram.com/oauth/authorize/?client_id=4f9ed3b9afd94c3fbf0536a3a54f7a68&redirect_uri=http://mapstagram.surge.sh/&response_type=token
-
-
-
-//
-
 
 // NEW TOKEN: 256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f
 
@@ -176,10 +170,10 @@ class InstaData {
     var request = fetch(recentPics);
 
     request
-    .then(response => response.json())
-    .then(data => {
-      var numberOfPhotosAtThisLocation = 0;
-      data.data.forEach( (photoObject) => {
+      .then(response => response.json())
+      .then(data => {
+        var numberOfPhotosAtThisLocation = 0;
+        data.data.forEach((photoObject) => {
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
           let link = photoObject.link;
@@ -188,7 +182,7 @@ class InstaData {
           if (photoObject.location) { // If the image is geocoded...
             let lat = photoObject.location.latitude;
             let lng = photoObject.location.longitude;
-            let coords = { lat: lat, lng: lng};
+            let coords = {lat: lat, lng: lng};
             let locationName = photoObject.location.name;
 
             if (isNearby(coords, currentLocation)) { // If the photo is nearby, render it
@@ -200,58 +194,49 @@ class InstaData {
             }
           }
           // NOTE: If the photo has no location, it disppears into the ether...
-      } )
+        })
 
-      if (numberOfPhotosAtThisLocation > 0) {
-        this.getMyInfo();
-      } else {
-        alert('No photos at this location. Looks like a lovely area though.')
-      }
+        if (numberOfPhotosAtThisLocation > 0) {
+          this.getMyInfo();
+        } else {
+          alert('No photos at this location. Looks like a lovely area though.')
+        }
 
-    })
-    .catch( err => console.log(err)) // eslint-disable-line
+      })
+      .catch(err => console.log(err)) // eslint-disable-line
   }
-}
+  }
 
-function isNearby(photoCoords, referenceCoords) {
-  let testLat = photoCoords.lat;
-  let testLng = photoCoords.lng;
+  function isNearby(photoCoords, referenceCoords) {
+    let testLat = photoCoords.lat;
+    let testLng = photoCoords.lng;
 
-  let maxLat = referenceCoords.lat + 0.08;
-  let minLat = referenceCoords.lat - 0.08;
-  let maxLng = referenceCoords.lng + 0.08;
-  let minLng = referenceCoords.lng - 0.08;
+    let maxLat = referenceCoords.lat + 0.08;
+    let minLat = referenceCoords.lat - 0.08;
+    let maxLng = referenceCoords.lng + 0.08;
+    let minLng = referenceCoords.lng - 0.08;
 
-  return (testLat <= maxLat && testLat >= minLat) && (testLng <= maxLng && testLng >= minLng);
-}
+    return (testLat <= maxLat && testLat >= minLat) && (testLng <= maxLng && testLng >= minLng);
+  }
 
-function createMarker(position, title, description, link) {
+  function createMarker(position, title, description, link) {
     let marker = new google.maps.Marker({
-                  position: position,
-                  map: map,
-                  title: title,
-                  icon: "assets/img/ic_camera_1x.png",
-                  animation: google.maps.Animation.DROP
-                  });
+      position: position,
+      map: map,
+      title: title,
+      icon: "assets/img/ic_camera_1x.png",
+      animation: google.maps.Animation.DROP
+    });
 
     let contentString = `<h6>${title}</h6><p>${description}</p><a target="_blank" href="${link}">original</a>`;
 
     let infowindow = new google.maps.InfoWindow({
-                      content: contentString,
-                      maxWidth: 200
-                      });
+      content: contentString,
+      maxWidth: 200
+    });
 
     marker.addListener('click', function() {
       infowindow.open(map, marker);
     });
 
-}
-
-
-
-
-
-
-
-
-//
+  }
