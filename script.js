@@ -55,12 +55,12 @@ $('#submit').click((event) => {
 })
 
 function processUserInput(searchTerm) {
-  let generateMap = new Map;
+  let generateMap = new Map();
   let newMapPosition = generateMap.search(searchTerm);
 
   newMapPosition
     .then(currentLocation => {
-      var generateInstaContent = new InstaData;
+      var generateInstaContent = new InstaData();
       return generateInstaContent.getRecentPics(currentLocation);
     })
     .catch( err => console.log(err)) // eslint-disable-line
@@ -85,13 +85,13 @@ class Map {
       .then(locationCoordinates => {
         let lat = locationCoordinates.lat;
         let lng = locationCoordinates.lng;
-        return this.createMap(lat, lng);
+        return this._createMap(lat, lng);
       })
       .catch( err => console.log(err)) // eslint-disable-line
 
   }
 
-  createMap(latitude, longitude) {
+  _createMap(latitude, longitude) {
     var newPosition = new google.maps.LatLng(latitude, longitude);
     var mapSpecs = {
       zoom: 12,
@@ -177,7 +177,6 @@ class InstaData {
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
           let link = photoObject.link;
-          // let tagsArray = photoObject.tags;
 
           if (photoObject.location) { // If the image is geocoded...
             let lat = photoObject.location.latitude;
