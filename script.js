@@ -5,7 +5,8 @@
 var map;
 
 // NOTE: Google scirpt in HTMl looks for this function initMap and runs it as a callback on page load
-function initMap() { // eslint-disable-line
+function initMap() {
+  // eslint-disable-line
   let latitude = Number((Math.random() * 90).toFixed(3));
   let longitude = Number((Math.random() * -130).toFixed(3));
 
@@ -13,8 +14,8 @@ function initMap() { // eslint-disable-line
   var mapSpecs = {
     zoom: 10,
     center: startingPosition,
-    mapTypeId: 'satellite'
-  }
+    mapTypeId: "satellite"
+  };
   map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
   let contentString = `<h4>Welcome</h4><p>Where are we?</p><p>Who cares, there's nothing interesting here. Enter a location in the search bar above and click generate to view that location and see if there are any pictures there.</p>`;
@@ -22,37 +23,35 @@ function initMap() { // eslint-disable-line
   let marker = new google.maps.Marker({
     position: startingPosition,
     map: map,
-    title: 'Starting Location'
+    title: "Starting Location"
   });
 
   var infowindow = new google.maps.InfoWindow();
 
-  marker.addListener('click', function() {
+  marker.addListener("click", function() {
     infowindow.setContent(contentString);
     infowindow.setOptions({
       maxWidth: 400
     });
     infowindow.open(map, marker);
   });
-
 }
 
 /* **************************************************************
      L I S T E N I N G     F O R     U S E R     I N P U T
 *************************************************************** */
 
-$('#submit').click((event) => {
+$("#submit").click(event => {
   event.preventDefault();
 
-  let searchTerm = $('#location')[0].value;
+  let searchTerm = $("#location")[0].value;
 
   if (searchTerm.length === 0) {
-    alert('You must enter a new location')
+    alert("You must enter a new location");
   } else {
     processUserInput(searchTerm);
   }
-
-})
+});
 
 function processUserInput(searchTerm) {
   let generateMap = new Map();
@@ -63,16 +62,15 @@ function processUserInput(searchTerm) {
       var generateInstaContent = new InstaData();
       return generateInstaContent.getRecentPics(currentLocation);
     })
-    .catch( err => console.log(err)) // eslint-disable-line
-
+    .catch(err => console.log(err)); // eslint-disable-line
 }
 
 /* ===================================================================
             N E W      M A P      G E N E R A T I O N
 ===================================================================*/
 
-const GEO_URL = 'https://maps.googleapis.com/maps/api/geocode/json?address='
-const GEO_KEY = 'AIzaSyAAM1zPuVWdHPXAyIN7rhgk6lNsPVC-oIc';
+const GEO_URL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+const GEO_KEY = "AIzaSyAAM1zPuVWdHPXAyIN7rhgk6lNsPVC-oIc";
 
 class Map {
   search(searchTerm) {
@@ -87,21 +85,19 @@ class Map {
         let lng = locationCoordinates.lng;
         return this._createMap(lat, lng);
       })
-      .catch( err => console.log(err)) // eslint-disable-line
-
+      .catch(err => console.log(err)); // eslint-disable-line
   }
 
   _createMap(latitude, longitude) {
     var newPosition = new google.maps.LatLng(latitude, longitude);
     var mapSpecs = {
       zoom: 12,
-      center: newPosition,
-    }
+      center: newPosition
+    };
     map = new google.maps.Map(document.getElementById("map"), mapSpecs);
 
-    return {lat: latitude, lng: longitude};
+    return { lat: latitude, lng: longitude };
   }
-
 }
 
 /* ===================================================================
@@ -123,14 +119,14 @@ class Map {
 
 // NEW TOKEN: 256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f
 
-
 class InstaData {
   constructor() {
-    this.TOKEN = '256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f';
+    this.TOKEN = "256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f";
   }
 
   getMyInfo() {
-    const aboutMe = `https://api.instagram.com/v1/users/self/?access_token=${this.TOKEN}`
+    const aboutMe = `https://api.instagram.com/v1/users/self/?access_token=${this
+      .TOKEN}`;
 
     var request = fetch(aboutMe);
 
@@ -138,7 +134,7 @@ class InstaData {
       .then(response => response.json())
       .then(data => data.data)
       .then(bio => {
-        $('#instabio').html(
+        $("#instabio").html(
           `<div class="row valign-wrapper">
             <div class="col s8 offset-s2 valign">
               <div class="card horizontal">
@@ -160,12 +156,13 @@ class InstaData {
               </div>
             </div>`
         );
-
       })
+      .catch(err => console.log("There was an error getting my info:", err)); // eslint-disable-line
   }
 
   getRecentPics(currentLocation) {
-    const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this.TOKEN}`;
+    const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this
+      .TOKEN}`;
 
     var request = fetch(recentPics);
 
@@ -173,69 +170,75 @@ class InstaData {
       .then(response => response.json())
       .then(data => {
         var numberOfPhotosAtThisLocation = 0;
-        data.data.forEach((photoObject) => {
+        data.data.forEach(photoObject => {
           let thumbnail = photoObject.images.thumbnail.url;
           let caption = photoObject.caption.text;
           let link = photoObject.link;
 
-          if (photoObject.location) { // If the image is geocoded...
+          if (photoObject.location) {
+            // If the image is geocoded...
             let lat = photoObject.location.latitude;
             let lng = photoObject.location.longitude;
-            let coords = {lat: lat, lng: lng};
+            let coords = { lat: lat, lng: lng };
             let locationName = photoObject.location.name;
 
-            if (isNearby(coords, currentLocation)) { // If the photo is nearby, render it
-              numberOfPhotosAtThisLocation++
+            if (isNearby(coords, currentLocation)) {
+              // If the photo is nearby, render it
+              numberOfPhotosAtThisLocation++;
               createMarker(coords, locationName, caption, link);
-              $('#instafeed').append(`
+              $("#instafeed").append(`
                 <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
-                `)
+                `);
             }
           }
           // NOTE: If the photo has no location, it disppears into the ether...
-        })
+        });
 
         if (numberOfPhotosAtThisLocation > 0) {
           this.getMyInfo();
         } else {
-          alert('No photos at this location. Looks like a lovely area though.')
+          alert("No photos at this location. Looks like a lovely area though.");
         }
-
       })
-      .catch(err => console.log(err)) // eslint-disable-line
+      .catch(err =>
+        console.log("There was an error getting recent pics:", err)
+      ); // eslint-disable-line
   }
-  }
+}
 
-  function isNearby(photoCoords, referenceCoords) {
-    let testLat = photoCoords.lat;
-    let testLng = photoCoords.lng;
+function isNearby(photoCoords, referenceCoords) {
+  let testLat = photoCoords.lat;
+  let testLng = photoCoords.lng;
 
-    let maxLat = referenceCoords.lat + 0.08;
-    let minLat = referenceCoords.lat - 0.08;
-    let maxLng = referenceCoords.lng + 0.08;
-    let minLng = referenceCoords.lng - 0.08;
+  let maxLat = referenceCoords.lat + 0.08;
+  let minLat = referenceCoords.lat - 0.08;
+  let maxLng = referenceCoords.lng + 0.08;
+  let minLng = referenceCoords.lng - 0.08;
 
-    return (testLat <= maxLat && testLat >= minLat) && (testLng <= maxLng && testLng >= minLng);
-  }
+  return (
+    testLat <= maxLat &&
+    testLat >= minLat &&
+    (testLng <= maxLng && testLng >= minLng)
+  );
+}
 
-  function createMarker(position, title, description, link) {
-    let marker = new google.maps.Marker({
-      position: position,
-      map: map,
-      title: title,
-      icon: "assets/img/ic_camera_1x.png",
-      animation: google.maps.Animation.DROP
-    });
+function createMarker(position, title, description, link) {
+  let marker = new google.maps.Marker({
+    position: position,
+    map: map,
+    title: title,
+    icon: "assets/img/ic_camera_1x.png",
+    animation: google.maps.Animation.DROP
+  });
 
-    let contentString = `<h6>${title}</h6><p>${description}</p><a target="_blank" href="${link}">original</a>`;
+  let contentString = `<h6>${title}</h6><p>${description}</p><a target="_blank" href="${link}">original</a>`;
 
-    let infowindow = new google.maps.InfoWindow({
-      content: contentString,
-      maxWidth: 200
-    });
+  let infowindow = new google.maps.InfoWindow({
+    content: contentString,
+    maxWidth: 200
+  });
 
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-
-  }
+  marker.addListener("click", function() {
+    infowindow.open(map, marker);
+  });
+}
