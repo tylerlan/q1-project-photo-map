@@ -183,12 +183,14 @@ class InstaData {
             let locationName = photoObject.location.name;
 
             if (isNearby(coords, currentLocation)) {
+              // clear child nodes (pictures) before generating to prevent duplications from recurring generations
+              $("#instafeed").empty();
               // If the photo is nearby, render it
               numberOfPhotosAtThisLocation++;
               createMarker(coords, locationName, caption, link);
-              $("#instafeed").append(`
-                <a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>
-                `);
+              $("#instafeed").append(
+                `<a target="_blank" href="${link}"><img class="fade" src="${thumbnail}"></a>`
+              );
             }
           }
           // NOTE: If the photo has no location, it disppears into the ether...
