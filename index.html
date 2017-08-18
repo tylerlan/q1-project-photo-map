@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>What's going on?</title>
+  <title>Mapstagram</title>
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,7 +16,16 @@
   <link rel="stylesheet" href="assets/css/materialize.min.css">
 
   <!--Import my styles-->
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <script>
+  const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68';
+const REDIRECT_URI = 'http://mapstagram.surge.sh/';
+
+const loginWithInstagram = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`;
+
+window.location.href = loginWithInstagram;
+</script>
 
 </head>
 
@@ -29,7 +38,7 @@
         <div class="container">
           <a href="#" class="brand-logo">Mapstagram</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="index.html">feeling antsy</a></li>
+            <li><a href="index.html">refresh</a></li>
           </ul>
         </div>
       </div>
@@ -82,7 +91,7 @@
       <div class="row">
         <div class="col l6 s12">
           <h5 class="white-text">Mapstagram</h5>
-          <p class="grey-text text-lighten-4"><i>The name is intentionally facetious</i></p>
+          <p class="grey-text text-lighten-4"><i>Adding spacial context to your graphical story</i></p>
         </div>
         <div class="col l4 offset-l2 s12">
           <ul>
@@ -99,12 +108,24 @@
     </div>
   </footer>
 
-  <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAlsTXlQkTd7ccIXsEbrHxMpduERF-4BX0&callback=initMap"></script>
+  <!--Loading assets -->
   <script src="assets/js/jquery-2.2.4.min.js"></script>
   <script src="assets/js/materialize.min.js"></script>
-  <!-- <script src="script.js"></script> -->
-  
-  <!-- NOTE:  synchronousScript is a file where I am hardcoding the json responses from my fetch calls to instagramAPI for the purposes of demoing my app. This is NOT a solution to the underlying CORS issue that prevents me frmo using the proper script.js file as intended-->
-  <script src="synchronousScript.js"></script>
+  <!--Putting API keys into the global scope, -->
+  <script type="text/javascript" src="api-keys.js"></script>
+  <!--So they can be accessed to generate the initial map... -->
+  <script>
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.defer = true;
+  script.src = `http://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_JS_KEY}&callback=initMap`;
+  document.body.appendChild(script);
+}
+window.onload = loadScript;
+</script>
+  <!--And also in the main script -->
+  <script src="script.js"></script>
 
 </body>
