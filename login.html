@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Login with Instagram</title>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Redirect user to Instagram's authorization URL on page load-->
+  <!-- Instagram API requires that everything be valid with SSL -->
+  <script>
+  const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68';
+const REDIRECT_URI = 'https://mapstagram.surge.sh/';
+
+const loginWithInstagram = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`;
+
+window.location.href = loginWithInstagram;
+</script>
+
+</head>
+
+<body>
+</body>

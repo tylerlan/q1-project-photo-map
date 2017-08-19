@@ -1,17 +1,32 @@
 {
-  "name": "q1-project-simplified",
-  "author": "tyler.langenbrunner@gmail.com",
+  "name": "q1-project-photo-map",
+  "author": {
+    "name": "Tyler Langenbrunner",
+    "email": "tyler.langenbrunner@gmail.com"
+  },
+  "license": "ISC",
   "version": "1.0.0",
   "description": "My quarter 1 project: Mapstagram!",
   "main": "script.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "eslint": "^3.19.0",
-    "es6-promise": "^4.1.0",
-  }
+    "es6-promise": "4.1.0",
+    "express": "4.15.4"
+  },
+  "devDependencies": {
+    "eslint": "4.3.0",
+    "eslint-config-airbnb": "15.1.0",
+    "eslint-plugin-import": "2.7.0"
+  },
+  "scripts": {
+    "start": "http-server",
+    "lint": "node_modules/eslint/bin/eslint.js --ext=js --ext=jsx ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tylerlan/q1-project-photo-map.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tylerlan/q1-project-photo-map/issues"
+  },
+  "homepage": "https://github.com/tylerlan/q1-project-photo-map#readme"
 }
