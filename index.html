@@ -18,15 +18,6 @@
   <!--Import my styles-->
   <link rel="stylesheet" href="assets/css/main.css">
 
-  <script>
-  const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68';
-const REDIRECT_URI = 'http://mapstagram.surge.sh/';
-
-const loginWithInstagram = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`;
-
-window.location.href = loginWithInstagram;
-</script>
-
 </head>
 
 <body>
@@ -36,16 +27,20 @@ window.location.href = loginWithInstagram;
     <nav>
       <div class="nav-wrapper #1565c0 blue darken-3">
         <div class="container">
-          <a href="#" class="brand-logo">Mapstagram</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="index.html">refresh</a></li>
+          <a href="#!" class="brand-logo">Mapstagram</a>
+          <a href="#" data-activates="collapsed-nav" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="index.html">home</a></li>
+            <li><a href="login.html">login</a></li>
+          </ul>
+          <ul class="side-nav" id="collapsed-nav">
+            <li><a href="index.html">home</a></li>
+            <li><a href="login.html">login</a></li>
           </ul>
         </div>
       </div>
     </nav>
   </div>
-
-
 
   <!-- MAIN -->
   <div class="row container">
@@ -120,7 +115,7 @@ function loadScript() {
   script.type = 'text/javascript';
   script.async = true;
   script.defer = true;
-  script.src = `http://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_JS_KEY}&callback=initMap`;
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_JS_KEY}&callback=initMap`;
   document.body.appendChild(script);
 }
 window.onload = loadScript;
