@@ -1,3 +1,8 @@
+// JQuery for dropdown options and food truck list
+$(document).ready(() => {
+  $('.button-collapse').sideNav();
+});
+
 /* ===================================================================
           I N I T I A L     M A P     G E N E R A T I O N
 ===================================================================*/
@@ -97,8 +102,6 @@ class Map {
     };
     map = new google.maps.Map(document.getElementById('map'), mapSpecs);
 
-    console.log(map);
-
     return { lat: latitude, lng: longitude };
   }
 }
@@ -106,34 +109,6 @@ class Map {
 /* ===================================================================
                           I N S T A G R A M
 ===================================================================*/
-
-/* ============================================================================
-            Step One: Direct your user to our authorization URL
-============================================================================== */
-
-// const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68';
-// const REDIRECT_URI = 'http://mapstagram.surge.sh/';
-// const loginWithInstagram = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`;
-
-/*
-
-At this point, we present the user with a login screen and then a confirmation screen where they grant your app’s access to their Instagram data. Note that unlike the explicit flow the response type here is “token”.
-
-*/
-
-/* =============================================================================
-            Step Two: Receive the access_token via the URL fragment
- ============================================================================== */
-
-/*
-
-Once the user has authenticated and then authorized your application, Instagram redirects them to your redirect_uri with the access_token in the url fragment. It will look like this:
-
-http://your-redirect-uri#access_token=ACCESS-TOKEN
-
-Simply grab the access_token off the URL fragment and you’re good to go. If the user chooses not to authorize your application, you’ll receive the same error response as in the explicit flow
-
-*/
 
 function getUserAccessToken() {
   const url = window.location.href;
@@ -146,27 +121,32 @@ function getUserAccessToken() {
 
   const userAccessToken = url.slice(start, end);
 
-  console.log(userAccessToken);
+  console.log('userAccessToken: ', userAccessToken);
 
   return userAccessToken;
 }
 
 class InstaData {
   constructor() {
-    // this.TOKEN = '256450119.4f9ed3b.85b25e00bb864c6aa837a5896060080f';
     this.TOKEN = getUserAccessToken();
   }
 
   getMyInfo() {
     const aboutMe = `https://api.instagram.com/v1/users/self/?access_token=${this.TOKEN}`;
 
-    var request = fetch(aboutMe);
+    $.ajax({
+      url: `${aboutMe}&callback=?`,
+      type: 'GET',
+      dataType: 'jsonp',
 
-    request
-      .then(response => response.json())
-      .then(data => data.data)
-      .then(bio => {
-        $('#instabio').html(
+      error: () => {
+        alert('error');
+      },
+
+      success: response => {
+        const bio = response.data;
+
+        return $('#instabio').html(
           `<div class="row valign-wrapper">
             <div class="col s8 offset-s2 valign">
               <div class="card horizontal">
@@ -188,23 +168,34 @@ class InstaData {
               </div>
             </div>`,
         );
-      })
-      .catch(err => console.log('There was an error getting my info:', err)); // eslint-disable-line
+      },
+    });
   }
 
   getRecentPics(currentLocation) {
     const recentPics = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${this
       .TOKEN}`;
 
-    var request = fetch(recentPics);
+    $.ajax({
+      url: `${recentPics}&callback=?`,
+      type: 'GET',
+      dataType: 'jsonp',
 
-    request
-      .then(response => response.json())
-      .then(data => {
+      error: () => {
+        alert('error');
+      },
+
+      success: response => {
+        const data = response;
+
         var numberOfPhotosAtThisLocation = 0;
+
+        // clear child nodes (pictures) before generating to prevent duplications from recurring generations
+        $('#instafeed').empty();
+
         data.data.forEach(photoObject => {
           let thumbnail = photoObject.images.thumbnail.url;
-          let caption = photoObject.caption.text;
+          let caption = photoObject.caption ? photoObject.caption.text : '';
           let link = photoObject.link;
 
           if (photoObject.location) {
@@ -215,8 +206,6 @@ class InstaData {
             let locationName = photoObject.location.name;
 
             if (isNearby(coords, currentLocation)) {
-              // clear child nodes (pictures) before generating to prevent duplications from recurring generations
-              $('#instafeed').empty();
               // If the photo is nearby, render it
               numberOfPhotosAtThisLocation++;
               createMarker(coords, locationName, caption, link);
@@ -229,12 +218,13 @@ class InstaData {
         });
 
         if (numberOfPhotosAtThisLocation > 0) {
+          // since there are photos to display, show the owner's info as well
           this.getMyInfo();
         } else {
           alert('No photos at this location. Looks like a lovely area though.');
         }
-      })
-      .catch(err => console.log('There was an error getting recent pics:', err)); // eslint-disable-line
+      },
+    });
   }
 }
 
