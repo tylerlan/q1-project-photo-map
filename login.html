@@ -10,10 +10,9 @@
 
   <!-- Redirect user to Instagram's authorization URL on page load-->
   <!-- Instagram API requires that everything be valid with SSL -->
-  <script>
-  const CLIENT_ID = '4f9ed3b9afd94c3fbf0536a3a54f7a68';
-const REDIRECT_URI = 'https://mapstagram.surge.sh/';
+  <script type="text/javascript" src="api-keys.js"></script>
 
+  <script>
 const loginWithInstagram = `https://api.instagram.com/oauth/authorize/?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=token`;
 
 window.location.href = loginWithInstagram;
