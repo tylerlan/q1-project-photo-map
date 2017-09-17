@@ -18,8 +18,9 @@
     "eslint-plugin-import": "2.7.0"
   },
   "scripts": {
-    "start": "http-server",
-    "lint": "node_modules/eslint/bin/eslint.js --ext=js --ext=jsx ."
+    "start": "node server.js",
+    "lint": "node_modules/eslint/bin/eslint.js --ext=js --ext=jsx .",
+    "heroku-postbuild": "knex migrate:latest"
   },
   "repository": {
     "type": "git",
