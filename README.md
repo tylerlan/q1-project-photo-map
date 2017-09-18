@@ -35,10 +35,13 @@ Deployed: https://mapstagram.surge.sh/
 ## Getting Started
 1. Fork and Clone this repo.
 2. Register for [Google Maps API Keys](https://console.developers.google.com/apis/) (You will need one each for the *Geocode*, and *Google Maps JS* APIs).
-3. Create an **api-keys.js** file. The file should look like this:
+3. Register for [Instagram Developer Credentials](https://www.instagram.com/developer/register/) (You will need to register an app and be given *Client Id* and supply a *Redirect URI* such as localhost:8000).
+4. Create an **api-keys.js** file. The file should look like this:
     ```js
     const GEOCODE_KEY = 'bcowbrouwcblew'
     const GOOGLE_MAPS_JS_KEY = 'cblqbwqlwbcejl'
+    const CLIENT_ID = 'acblawbl32lb3'
+    const REDIRECT_URI = 'https://website.com'
     ```
-4. Run `npm start` to get started with localhost in the browser.
-5. Explore your visual story in a spatial context!
+5. Run `npm start` to get started with localhost in the browser.
+6. Explore your visual story in a spatial context!
